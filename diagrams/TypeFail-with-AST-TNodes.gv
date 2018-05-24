@@ -1,0 +1,47 @@
+digraph {
+
+    node[fontname="Courier New"];
+
+    # astroid nodes
+    node[shape=Mrecord style=filled fillcolor=lightblue];
+     mod [label="{Module|a = 1\na = 'abc'}"];
+
+     a1 [label="{Assign|a = 1}}" ordering=out];
+     an1 [label="{AssignName|a}"];
+     c1 [label="{Const|1}"];
+
+     a2 [label="{<label> Assign|a = 'abc'|<it>inf_type}"];
+     an2 [label="{AssignName|a}"];
+     c2 [label="{Const|'abc'}"];
+
+     a2:"it" -> fail:"src"[dir=both style=dashed constraint=false];
+     subgraph ast{
+         mod -> a2;
+         mod -> a1;
+         a1 -> an1;
+         a1 -> c1;
+         a2 -> an2;
+         a2 -> c2;
+     }
+    #TypeFail nodes
+    fail [label="{<node> TypeFail
+        |<src>src_node: Assign
+        |<tn1>tnode1: ~T0
+        |<tn2>tnode2: str
+    }"][shape=record style=filled fillcolor=red];
+
+
+    #TNodes
+    node[style=filled fillcolor=green shape = MRecord];
+    int [label="{_TNode|type: int|parent: None|ast_node: 1}" shape=Mrecord];
+    t0 [label="{_TNode|type: ~T0|<p>parent: int|ast_node: a| <rsn>ctx_node: a = 1}" shape=Mrecord];
+    str [label="{_TNode|type: str|parent: None|ast_node: 'abc'}" shape=Mrecord];
+
+    int -> t0:"p" [dir=back style="solid"];
+    fail:"tn1" -> t0 [style=dashed];
+    fail:"tn2" -> str [style=dashed];
+    t0:"rsn" -> a1 [style=dashed constraint=false]
+
+    {rank=same int str}
+    {rank=min fail}
+}

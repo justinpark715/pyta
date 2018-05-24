@@ -1,0 +1,30 @@
+digraph {
+
+    node[fontname="Courier New"];
+    edge[fontname="Courier New"];
+
+
+    #TypeFail nodes
+    fail [label="{<node> TypeFail
+        |<src>src_node: f(2, 3)
+        |<tn1>tnode1: ~T1
+        |<tn2>tnode2: Callable[[int, int], NoneType]
+    }"][shape=record style=filled fillcolor=red];
+
+    #TNodes
+    node[ shape = MRecord style=filled fillcolor=green];
+    int [label="{_TNode|type: int|parent: None|ast_node: None}" shape=Mrecord];
+    t0 [label="{_TNode|type: ~T0|<p>parent: TNode(int)|ast_node: x}" shape=Mrecord];
+    t1 [label="{_TNode|type: ~T1|<p>parent: TNode(Callable[[int], int])|ast_node: f(x)}" shape=Mrecord];
+    c1 [label="{_TNode|type: Callable[[int], int]|<p>parent: None|ast_node: None}" shape=Mrecord];
+    c2 [label="{_TNode|type: Callable[[int, int], NoneType]|<p>parent: None|ast_node: None}" shape=Mrecord];
+
+
+    int -> t0 [dir=none style="solid" label="  x + 1"];
+    c1 -> t1 [dir=none style="solid" label="  def f(x)"]
+    fail:"tn1" -> t1 [style=dashed];
+    fail:"tn2" -> c2 [style=dashed];
+
+    {rank=min fail}
+    {rank=max c1 c2 t0}
+}

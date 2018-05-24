@@ -1,0 +1,49 @@
+digraph {
+
+    node[fontname="Courier New"];
+    edge[fontname="Courier New"]
+    # def f(a):
+    #   b = a
+    #   c = b
+    #   return c
+
+
+    node[style=filled fillcolor=green shape=Mrecord];
+    t0 [label= "{~TNode
+        |type: ~T0
+        |parent: None
+        |ast_node: a
+        }"
+    ];
+    t1 [label= "{~TNode
+        |type: ~T1
+        |parent: None
+        |ast_node: b
+        }"
+    ];
+    t2 [label= "{~TNode
+        |type: ~T2
+        |parent: None
+        |ast_node: c
+        }"
+    ];
+    t3 [label= "{~TNode
+        |type: ~T3
+        |parent: None
+        |ast_node: f
+        }"
+    ];
+    c1 [label= "{~TNode
+        |type: Callable[[~T0], ~T0]
+        |parent: None
+        |ast_node: None
+        }"
+    ];
+
+
+    t0 -> t1 [dir=none label="  b = a"];
+    t1 -> t2 [dir=none label="  c = b"];
+    t3 -> c1 [dir=none label="  def f(a)"];
+
+
+}

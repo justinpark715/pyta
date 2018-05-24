@@ -1,0 +1,29 @@
+digraph {
+
+    node[fontname="Courier New"];
+    edge[fontname="Courier New"];
+
+
+    #TypeFail nodes
+    fail [label="{<node> TypeFail
+        |<src>src_node: f(a)
+        |<tn1>tnode1: ~T0
+        |<tn2>tnode2: ~T2
+    }"][shape=record style=filled fillcolor=red];
+
+
+    #TNodes
+    node[ shape = MRecord style=filled fillcolor=green ];
+    int [label="{_TNode|type: int|parent: None|ast_node: 1}" shape=Mrecord];
+    str [label="{_TNode|type: str|parent: None|ast_node: 'hello'}" shape=Mrecord];
+    t0 [label="{_TNode|type: ~T0|<p>parent: TNode(int)|ast_node: x}" shape=Mrecord];
+    t2 [label="{_TNode|type: ~T2|<p>parent: TNode(str)|ast_node: a}" shape=Mrecord];
+    int -> t0 [dir=none style="solid" label="  x + 1"];
+    str -> t2 [dir=none style="solid" label="  a = 'hello'"]
+    fail:"tn1" -> t0 [style=dashed];
+    fail:"tn2" -> t2 [style=dashed];
+
+    {rank=min fail}
+    {rank=max int str}
+
+}

@@ -1,0 +1,43 @@
+digraph {
+
+    node[fontname="Courier New"];
+    edge[fontname="Courier New"]
+
+    mod [label="{Module|a = 1 \n b = a \n c = b}"] [shape=Mrecord style=filled fillcolor=lightblue];
+
+
+    subgraph tnodes{
+        node[style=filled fillcolor=green shape=Mrecord];
+        int [label= "{~TNode
+            |type: int
+            |parent: None
+            |ast_node: None
+            }"
+        ];
+        t0 [label= "{~TNode
+            |type: ~T0
+            |parent: TNode(int)
+            |ast_node: a
+            }"
+        ];
+        t1 [label= "{~TNode
+            |type: ~T1
+            |parent: TNode(int)
+            |ast_node: b
+            }"
+        ];
+        t2 [label= "{~TNode
+            |type: ~T2
+            |parent: TNode(int)
+            |ast_node: c
+            }"
+        ];
+
+        int -> t0 [dir=none label="  a = 1"];
+        t0 -> t1 [dir=none label="  b = a"];
+        t1 -> t2 [dir=none label="  c = b"];
+    }
+
+    {rank=min mod}
+
+}
