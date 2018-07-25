@@ -18,6 +18,7 @@ def patch_type_inference_transform():
                 env_transformer.visit(ast)
                 type_transformer.visit(ast)
             except Exception as e:
+                print(filepath)
                 print(e)
                 raise e
         return ast
