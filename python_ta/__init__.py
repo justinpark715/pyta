@@ -36,6 +36,8 @@ from astroid import modutils, MANAGER
 from .reporters import REPORTERS
 from .patches import patch_all
 
+import test_checker
+
 HELP_URL = 'http://www.cs.toronto.edu/~david/pyta/'
 
 # check the python version
@@ -77,9 +79,17 @@ def _check(module_name='', level='all', local_config='', output=None):
     patch_all()  # Monkeypatch pylint (override certain methods)
 
     # Try to check file, issue error message for invalid files.
+    started = False
     try:
         for locations in _get_valid_files_to_check(current_reporter, module_name):
-            for file_py in get_file_paths(locations):
+            paths = list(get_file_paths(locations))
+            paths.sort()
+            for file_py in paths:
+                if file_py == test_checker.START_FROM or test_checker.START_FROM is None:
+                    started = True
+                if file_py in test_checker.SKIPPED or (test_checker.START_FROM and not started):
+                    continue
+                print(file_py)
                 if not _verify_pre_check(file_py):
                     continue  # Check the other files
                 # Load config file in user location. Construct new linter each

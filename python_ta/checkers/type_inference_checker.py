@@ -2,7 +2,7 @@
 """
 
 import astroid
-from typing import _ForwardRef
+from typing import ForwardRef
 from pylint.interfaces import IAstroidChecker
 from pylint.checkers import BaseChecker
 from pylint.checkers.utils import check_messages
@@ -43,7 +43,7 @@ class TypeInferenceChecker(BaseChecker):
                 for tn in node.inf_type.tnodes:
                     if tn.ast_node:
                         args.append(tn.ast_node.as_string())
-                    elif isinstance(tn.type, _ForwardRef):
+                    elif isinstance(tn.type, ForwardRef):
                         args.append(str(tn.type))
                     elif tn.type is not None:
                         args.append(tn.type.__name__ if hasattr(tn.type, '__name__') else tn.type)
